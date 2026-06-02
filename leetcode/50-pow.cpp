@@ -44,3 +44,4 @@ double myPow(double x, int n) {
     if (negative) return 1/ans;
     return ans;
 }
+int main (){}
