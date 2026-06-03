@@ -45,9 +45,6 @@ int main () {
     st.push(2);
 
     sortStack(st);
-
-    cout << st.size() << endl;
-
     printStack(st);
 
 }
