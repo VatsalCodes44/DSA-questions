@@ -12,7 +12,6 @@
       "program": "${workspaceFolder}/build/exe/${fileBasenameNoExtension}.exe",
       "MIMode": "gdb",
       "miDebuggerPath": "C:/mingw64/bin/gdb.exe",
-      // "preLaunchTask": "C/C++: gcc.exe build active file",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
