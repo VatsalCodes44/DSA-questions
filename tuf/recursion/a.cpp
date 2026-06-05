@@ -1,7 +1,3 @@
-// Input: n = 3
-// Output: ["000", "001", "010", "100", "101"]
-// Explanation: All strings are of length 3 and do not contain consecutive 1s
-
 #include <bits/stdc++.h>
 
 using namespace std;
