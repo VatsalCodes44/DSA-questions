@@ -37,6 +37,8 @@ int findLengthOfLoop(ListNode *head) {
                 count++;
                 fast = fast->next;
             } while (slow != fast);
+            return count;
         }
     }
+    return 0;
 }
