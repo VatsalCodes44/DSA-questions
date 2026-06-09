@@ -43,8 +43,8 @@ vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
 }
 
 int main () {
-    vector<int> candidates = {10,1,2,7,6,1,5};
-    vector<vector<int>> arr = combinationSum2(candidates, 8);
+    vector<int> candidates = {4, 9, 2, 5, 1};
+    vector<vector<int>> arr = combinationSum2(candidates, 10);
 
     for (auto i: arr) {
         for (int j = 0; j < i.size(); j++) {
