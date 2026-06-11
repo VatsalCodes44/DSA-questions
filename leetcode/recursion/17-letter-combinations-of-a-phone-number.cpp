@@ -19,8 +19,8 @@ void lC(string &digits, int i, string &ans, vector <string> &ansArr, vector<stri
 
 }
 
-vector<string> letterCombinations(string& digits) {
-    vector <string> mappings = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv" "wxyz"};  
+vector<string> letterCombinations(string digits) {
+    vector <string> mappings = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};  
     string ans = "";
     vector<string> ansArr;
     lC(digits, 0, ans, ansArr, mappings);
@@ -28,7 +28,7 @@ vector<string> letterCombinations(string& digits) {
 }
 
 int main () {
-    auto arr = letterCombinations("23");
+    auto arr = letterCombinations("");
     for (auto i: arr) {
         cout << i << endl;
     }
