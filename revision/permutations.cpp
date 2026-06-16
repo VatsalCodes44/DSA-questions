@@ -21,7 +21,6 @@ void permutations(vector<char> &arr, string& str, int i) {
     }
     
 }
-
 int main () {
     vector<char> arr = {'a', 'b', 'c'};
     string str = "";
