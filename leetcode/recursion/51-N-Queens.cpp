@@ -2,137 +2,53 @@
 
 using namespace std;
 
-void f(vector<string>& arr, int r, int n, vector<vector<string>>& ans) {
+bool isSafe(int row, int col, int n, vector<string> board) {
+    int i = row-1;
+    int j = col-1;
+    while (i >= 0 && j >= 0) {
+        if (board[i][j] == 'Q') return false;
+        i--;
+        j--;
+    }
+
+    i = row+1;
+    j = col-1;
+    while (i < n && j >= 0) {
+        if (board[i][j] == 'Q') return false;
+        i++;
+        j--;
+    }
+
+    j = col;
+    while (j >= 0) {
+        if (board[row][j] == 'Q') return false;
+        j--;
+    }
+    return true;
+}
+
+void solve(vector<string>& board, int col, int n, vector<vector<string>>& ans) {
     // basecase
-    if (r == n) {
-        vector<string> abc;
-        for (int i = 0; i < n; i++) {
-            string str = "";
-            for (int j = 0; j < n; j++) {
-                if (arr[i][j] == 'Q') {
-                    str.push_back('Q');
-                }
-                else {
-                    str.push_back('.');
-                }
-            }
-            abc.push_back(str);
-        }
-        ans.push_back(abc);
+    if (col == n) {
+        ans.push_back(board);
         return;
     }
 
-    for (int c = 0; c < n; c++) {
-        if (arr[r][c] != '0') {
-            continue;
+    for (int row = 0; row < n; row++) {
+        if (isSafe(row,col,n,board)) {
+            board[row][col] = 'Q';
+            solve(board, col+1, n, ans);
+            board[row][col] = '.';
         }
-        arr[r][c] = 'Q';
-
-        for (int i = 0; i < n; i++) {
-            if (i == c) continue;
-            arr[r][i] = char(((arr[r][i] - '0')+1) + '0');
-        }
-        
-        for (int j = 0; j < n; j++) {
-            if (j == r) continue;
-            arr[j][c] = char(((arr[j][c] - '0')+1) + '0');
-        }
-        
-        int i = r+1; 
-        int j = c+1;
-        while (i < n && j < n) {
-            arr[i][j] = char(((arr[i][j] - '0')+1) + '0');
-            i++;
-            j++;
-        }
-
-        i = r-1; 
-        j = c-1;
-        while (i >= 0 && j >= 0) {
-            arr[i][j] = char(((arr[i][j] - '0')+1) + '0');
-            i--;
-            j--;
-        }
-
-        i = r-1; 
-        j = c+1;
-        while (i >= 0 && j < n) {
-            arr[i][j] = char(((arr[i][j] - '0')+1) + '0');
-            i--;
-            j++;
-        }
-
-        i = r+1; 
-        j = c-1;
-        while (i < n && j >= 0) {
-            arr[i][j] = char(((arr[i][j] - '0')+1) + '0');
-            i++;
-            j--;
-        }
-        
-        f(arr, r+1, n, ans);
-
-        arr[r][c] = '0';
-
-         for (int i = 0; i < n; i++) {
-            if (i == c) continue;
-            arr[r][i] = char(((arr[r][i] - '0')-1) + '0');
-        }
-        
-        for (int j = 0; j < n; j++) {
-            if (j == r) continue;
-            arr[j][c] = char(((arr[j][c] - '0')-1) + '0');
-        }
-        
-        i = r+1; 
-        j = c+1;
-        while (i < n && j < n) {
-            arr[i][j] = char(((arr[i][j] - '0')-1) + '0');
-            i++;
-            j++;
-        }
-
-        i = r-1; 
-        j = c-1;
-        while (i >= 0 && j >= 0) {
-            arr[i][j] = char(((arr[i][j] - '0')-1) + '0');
-            i--;
-            j--;
-        }
-
-        i = r-1; 
-        j = c+1;
-        while (i >= 0 && j < n) {
-            arr[i][j] = char(((arr[i][j] - '0')-1) + '0');
-            i--;
-            j++;
-        }
-
-        i = r+1; 
-        j = c-1;
-        while (i < n && j >= 0) {
-            arr[i][j] = char(((arr[i][j] - '0')-1) + '0');
-            i++;
-            j--;
-        }
-        
     }
-}    
-// r = 0; j = 0;
-//    0 1 2 3   
-// 0 |q|.|.|.|
-// 1 |.|.| | |
-// 2 |.| |.| |
-// 3 |.| | |.|
+    
+}
 
 vector<vector<string>> solveNQueens(int n) {
-    string str = "";
-    for (int i = 0; i < n; i++) {
-        str.push_back('0');
-    }
+    string str(n, '.');
     vector<string> board(n,str);
     vector<vector<string>> ans;
-    f(board, 0, n, ans);
+    solve(board, 0, n, ans);
     return ans;
 }
 
