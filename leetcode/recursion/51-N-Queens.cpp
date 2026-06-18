@@ -2,32 +2,7 @@
 
 using namespace std;
 
-bool isSafe(int row, int col, int n, vector<string> board) {
-    int i = row-1;
-    int j = col-1;
-    while (i >= 0 && j >= 0) {
-        if (board[i][j] == 'Q') return false;
-        i--;
-        j--;
-    }
-
-    i = row+1;
-    j = col-1;
-    while (i < n && j >= 0) {
-        if (board[i][j] == 'Q') return false;
-        i++;
-        j--;
-    }
-
-    j = col;
-    while (j >= 0) {
-        if (board[row][j] == 'Q') return false;
-        j--;
-    }
-    return true;
-}
-
-void solve(vector<string>& board, int col, int n, vector<vector<string>>& ans) {
+void solve(vector<string>& board, int col, int n, vector<vector<string>>& ans, vector<int> &upperDiag, vector<int> &lowerDiag, vector<int> &leftRow) {
     // basecase
     if (col == n) {
         ans.push_back(board);
@@ -35,10 +10,18 @@ void solve(vector<string>& board, int col, int n, vector<vector<string>>& ans) {
     }
 
     for (int row = 0; row < n; row++) {
-        if (isSafe(row,col,n,board)) {
+        if (!leftRow[row] && !upperDiag[n-1+col-row] && !lowerDiag[row+col]) {
             board[row][col] = 'Q';
-            solve(board, col+1, n, ans);
+            leftRow[row] = 1;
+            upperDiag[n-1+col-row] = 1;
+            lowerDiag[row+col] = 1;
+
+            solve(board, col+1, n, ans, upperDiag, lowerDiag, leftRow);
+
             board[row][col] = '.';
+            leftRow[row] = 0;
+            upperDiag[n-1+col-row] = 0;
+            lowerDiag[row+col] = 0;
         }
     }
     
@@ -48,7 +31,10 @@ vector<vector<string>> solveNQueens(int n) {
     string str(n, '.');
     vector<string> board(n,str);
     vector<vector<string>> ans;
-    solve(board, 0, n, ans);
+    vector<int> upperDiag(2*n-1,0);
+    vector<int> lowerDiag(2*n-1,0);
+    vector<int> leftRow(n,0);
+    solve(board, 0, n, ans, upperDiag, lowerDiag, leftRow);
     return ans;
 }
 
