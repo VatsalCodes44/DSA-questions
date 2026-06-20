@@ -26,17 +26,17 @@ bool isSafe(vector<vector<char>>& board, int row, int col, int n) {
 };
 
 bool f(vector<vector<char>>& board, int row, int col) {
-    if (col == 9) return true;
+    if (row == 9) return true;
     // cout << 1 << endl;
-    if (row == 9) {
-        return f(board, 0, col+1);
+    if (col == 9) {
+        return f(board, row+1, 0);
     }
 
     if (board[row][col] == '.') {
         for (int i = 1; i <= 9; i++) {
             if (isSafe(board, row, col, i)) {
                 board[row][col] = char(i + '0');
-                if (f(board, row+1, col)){
+                if (f(board, row, col+1)){
                     return true;
                 }
                 board[row][col] = '.';
@@ -44,7 +44,7 @@ bool f(vector<vector<char>>& board, int row, int col) {
         }
     }
     else {
-        return f(board, row+1, col);
+        return f(board, row, col+1);
     }
     return false;
 }
