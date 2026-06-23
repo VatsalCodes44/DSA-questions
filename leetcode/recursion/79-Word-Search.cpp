@@ -2,43 +2,32 @@
 
 using namespace std;
 
-bool explore(vector<vector<char>>& board, int row, int col, string& word, string& curr) {
-    if (curr.size() == word.size()) {
+bool explore(vector<vector<char>>& board, int row, int col, string& word, int i) {
+    if (i == word.size()) {
         return true;
     }
 
-    if (curr.size() == 0) {
-        if (board[row][col] != word[0]) return false;
-    }
+    if (row < 0 || row >= board.size()) return false; // out of bounds
+    if (col < 0 || col >= board[0].size()) return false; // out of bounds
 
-    char x = board[row][col];
-    board[row][col] = '.';
-    curr.push_back(x);
+    if (word[i] != board[row][col]) return false;
+    board[row][col] = '.'; // mark visited
 
-    if (row > 0 && board[row-1][col] != '.' && board[row-1][col] == word[curr.size()] && explore(board, row-1, col, word, curr)) return true; //up
-    if (row < board.size()-1 && board[row+1][col] != '.' && board[row+1][col] == word[curr.size()] && explore(board, row+1, col, word, curr)) return true; //down
-    if (col > 0 && board[row][col-1] != '.' && board[row][col-1] == word[curr.size()] && explore(board, row, col-1, word, curr)) return true; //left
-    if (col < board[0].size()-1 && board[row][col+1] != '.' && board[row][col+1] == word[curr.size()] && explore(board, row, col+1, word, curr)) return true; //right
-    
-    
-    board[row][col] = x;
-    
-    // comparing the curr string with word here again beacuse it is necessar can't explain in words use debugger with WORD = "ABCCED" we will se that first
-    // we will never reach he first (if (curr.size() == word.size())) when curr becomes "ABCCED"
-    if (curr.size() == word.size()) {
-        return true;
-    }
+    bool found = explore(board, row-1, col, word, i+1) // up
+    || explore(board, row+1, col, word, i+1) // down
+    || explore(board, row, col-1, word, i+1) // left
+    || explore(board, row, col+1, word, i+1); // right
 
-    curr.pop_back();
-    return false;
+    board[row][col] = word[i];
+    return found;
 
 }
 
-bool exist(vector<vector<char>>& board, string word) {
+bool exist(vector<vector<char>>& board, string& word) {
     string curr = "";
     for (int i = 0; i < board.size(); i++) {
         for (int j = 0; j < board[0].size(); j++) {
-            if (explore(board, i, j, word, curr)) return true;
+            if (explore(board, i, j, word, 0)) return true;
         }
     }
     return false;
