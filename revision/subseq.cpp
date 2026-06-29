@@ -20,8 +20,24 @@ void approach1 (vector<int>& arr, int i, vector<int>& ans) {
     approach1(arr, i+1, ans);
 }
 
+void approach2 (vector<int>& arr, int i, vector<int>& ans) {
+    for (auto x: ans) {
+        cout << x << " ";
+    }
+    cout << endl;
+
+    if (i == arr.size()) return;
+    
+    for (int j = i; j < arr.size(); j++) {
+        ans.push_back(arr[j]);
+        approach2(arr, j+1, ans);
+        ans.pop_back();
+    }
+}
+
+
 int main () {
     vector<int> arr = {1, 2, 3};
     vector<int>ans;
-    approach1(arr, 0, ans);
+    approach2(arr, 0, ans);
 }
