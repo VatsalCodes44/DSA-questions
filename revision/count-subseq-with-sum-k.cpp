@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int countSub(vector<int>& arr, int i, int k){
+int approach1 (vector<int>& arr, int i, int k) {
     if (k < 0) return 0;
     if (i == arr.size()) {
         if (k == 0) return 1;
@@ -10,33 +10,31 @@ int countSub(vector<int>& arr, int i, int k){
     }
 
     k -= arr[i];
-    int right = countSub(arr, i+1, k);
-    k+= arr[i];
+    int left = approach1(arr, i+1, k);
+    k += arr[i];
+    
+    int right = approach1(arr, i+1, k);
 
-    int left = countSub(arr, i+1, k);
     return left + right;
 }
 
-int countSub2(vector<int>& arr, int i, int k, string& ans) {
+int approach2 (vector<int>& arr, int i, int k) {
     if (k < 0) return 0;
     if (k == 0) return 1;
-    if (i == arr.size()) {
-        return 0;
-    }
+    if (i == arr.size()) return 0;
 
-    int count = 0;
+    int count= 0;
+    
     for (int j = i; j < arr.size(); j++) {
         k -= arr[j];
-        ans.push_back('0'+arr[j]);
-        count += countSub2(arr, j+1, k, ans);
-        ans.pop_back();
+        count += approach2(arr, j+1, k);
         k += arr[j];
     }
+    
     return count;
 }
 
 int main () {
     vector<int> arr = {4, 9, 2, 5, 1};
-    string ans = "";
-    cout << countSub2(arr, 0, 10, ans) << endl;
+    cout << approach2(arr, 0, 10) << endl;
 }
