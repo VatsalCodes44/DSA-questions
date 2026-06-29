@@ -2,28 +2,29 @@
 
 using namespace std;
 
-void generateBinaryStrings(string &ans, int i, int n) {
+void bs(int i, int n, string& ans) {
     if (i == n) {
         cout << ans << endl;
         return;
     }
-    if (ans[i] == '1') {
+
+    if (ans.back() == '1') {
         ans.push_back('0');
-        generateBinaryStrings(ans, i+1, n);
+        bs(i+1, n, ans);
         ans.pop_back();
         return;
     }
 
     ans.push_back('0');
-    generateBinaryStrings(ans, i+1, n);
+    bs(i+1, n, ans);
     ans.pop_back();
-    
+
     ans.push_back('1');
-    generateBinaryStrings(ans, i+1, n);
+    bs(i+1, n, ans);
     ans.pop_back();
 }
 
 int main () {
-    string str = "";
-    generateBinaryStrings(str, 0, 3);
+    string s = "";
+    bs(0, 3, s);
 }
