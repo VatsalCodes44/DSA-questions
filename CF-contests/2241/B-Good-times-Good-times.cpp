@@ -2,7 +2,9 @@
 
 using namespace std;
 
-bool good(long n) {
+
+
+bool good(long long n) {
     long long x =10;
     long long y = 10;
 
@@ -22,25 +24,49 @@ bool good(long n) {
     return true;
 }
 
-void f() {
-    long long x;
+void generate(vector<int>& goods, int d1, int d2, long long curr) {
+    if (curr > 1000000000) return;
+    if (curr >=2) goods.push_back((int)curr);
+
+
+    generate(goods,d1, d2, curr*10+d1);
+
+    if (d1 != d2) {
+        generate(goods, d1, d2, curr*10+d2);
+    }
+}
+void generateGoods(vector<int>& goods, int d1, int d2) {
+    if (d1 > 9) {
+        return;
+    }
+    if (d2 > 9) {
+        generateGoods(goods, d1+1, 0);
+        return;
+    }
+    generate(goods, d1, d2, d1);
+    generateGoods(goods, d1, d2+1);
+
+}
+
+void f(vector<int>& goods) {
+    int x;
     cin >> x;
-    for (long long y = 2; y <= 1000000000; y++) {
-        if (good(y)) {
-            if (good(x*y)) {
-                cout << y << endl;
-                return;
-            }
+    for (auto i: goods) {
+        if (good(x*i)) {
+            cout << i << '\n';
+            return;
         }
     }
-
 }
 
 int main () {
     int n;
     cin >> n; 
+    vector<int> goods;
+    generateGoods(goods, 1, 0);
+    sort(goods.begin(), goods.end());
     for (int i = 0; i < n; i++) {
-        f();
+        f(goods);
     }
-    return;
+    return 0;
 }
