@@ -3,14 +3,14 @@
 using namespace std;
 vector<int> factors (int n) {
     vector <int> ans;
-    for (int i = 2; i <= n; i++) {
+    for (int i = 2; i <= sqrt(n); i++) {
         while (n%i == 0) {
             ans.push_back(i);
             n/=i;
         }
         if (n == 1) break;
     }
-    if (ans.size() == 0) {
+    if (n != 1) {
         ans.push_back(n);
     }
     return ans;
