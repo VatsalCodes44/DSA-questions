@@ -3,8 +3,7 @@
 using namespace std;
 vector<int> factors (int n) {
     vector <int> ans;
-    int squareRoot = ceil(sqrt(n));
-    for (int i = 2; i <= squareRoot; i++) {
+    for (int i = 2; i <= n; i++) {
         while (n%i == 0) {
             ans.push_back(i);
             n/=i;
