@@ -15,6 +15,6 @@ bool check(vector<int>& nums) {
         else if (nums[i] > nums[i+1] && rotated) return false;
 
     }
-    if (rotated && nums[rotateIdx] < nums[nums.size()-1]) return false;
+    if (rotated && nums[0] < nums[nums.size()-1]) return false;
     return true;
 }
