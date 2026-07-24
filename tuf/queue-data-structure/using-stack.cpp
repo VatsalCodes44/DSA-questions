@@ -65,7 +65,7 @@ class Q {
             cout << "Queue is empty" << endl;
             return;
         }
-        
+
         while (!s2.empty()) {
             cout << s2.top() << " ";
             arr.push_back(s2.top());
@@ -99,6 +99,6 @@ int main () {
     q.print();
     q.pop();
     q.pop();
-    q.pop();
+    cout << q.top() << endl;
     q.print();
 }
