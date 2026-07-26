@@ -109,6 +109,50 @@ using namespace std;
 // };
 
 
+// most optimal approach
+class MinStack {
+    
+    vector<int> arr;
+    int mini;
+
+public:
+    MinStack(): mini(0) {}
+    
+    void push(int value) {
+        if (arr.size() == 0) {
+            mini = value;
+            return;
+        }
+
+        if (value < mini) {
+            arr.push_back((2*value) - mini);
+            mini = value;
+            return;
+        }
+
+        arr.push_back(value);
+    }
+    
+    void pop() {
+        if (arr.back() < mini) {
+            int prevMini = (2*mini) - arr.back();
+            arr.pop_back();
+            mini = prevMini;
+            return;
+        }
+        arr.pop_back();
+    }
+    
+    int top() {
+        return arr.back() < mini ? mini : arr.back();
+    }
+    
+    int getMin() {
+        return mini;
+    }
+};
+
+
 
 int main () {
     vector <int> arr;
