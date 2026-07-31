@@ -7,13 +7,11 @@
         "C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include",
         "C:/mingw64/include"
       ],
-      "compilerPath": "C:/mingw64/bin/gcc.exe",
+      "compilerPath": "C:/mingw64/bin/g++.exe",
       "cStandard": "c17",
-      "cppStandard": "c++17",
+      "cppStandard": "c++20",
       "intelliSenseMode": "windows-gcc-x64",
-      "compilerArgs": [
-        ""
-      ]
+      "compilerArgs": [""]
     }
   ],
   "version": 4
