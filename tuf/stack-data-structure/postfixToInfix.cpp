@@ -16,8 +16,7 @@ void postfixToInfix (string s) {
             st.pop();
             string first = st.top();
             st.pop();
-
-            string ans = std::format("({}{}{})", first, s[i], second);
+            string ans = "(" + first + s[i] + second + ")";
             st.push(ans);
         }
         i++;
