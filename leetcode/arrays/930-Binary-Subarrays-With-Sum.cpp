@@ -4,6 +4,7 @@ using namespace std;
 
 class Solution {
 public:
+// prefix sum
     int numSubarraysWithSum(vector<int>& nums, int k) {
         unordered_map<int, int>mpp;
         int sum = 0;
