@@ -4,8 +4,8 @@ using namespace std;
 
 int maxProduct(vector<int>& nums) {
     int maxProd = nums[0];
-    int positiveProd = nums[0];
-    int negativeProd = nums[0];
+    int positiveProd = nums[0] > 0 ? nums[0] : 0;
+    int negativeProd = nums[0] < 0 ? nums[0] : 0;
     for (int i = 1; i < nums.size(); i++) {
         if (positiveProd == 0) {
             positiveProd = max(0, nums[i]);
@@ -37,18 +37,19 @@ int maxProduct(vector<int>& nums) {
 
         if (negativeProd > 0) {
             positiveProd = max(positiveProd, negativeProd);
-            negativeProd = 0;
+            negativeProd = min(0, nums[i]);
         }
         if (positiveProd < 0) {
-            negativeProd = max(positiveProd, negativeProd);
-            positiveProd = 0;
+            negativeProd = min(positiveProd, negativeProd);
+            positiveProd = max(0, nums[i]);
         }
+
     }
 
     return maxProd;
 }
 
 int main () {
-    vector<int> arr = {-2, 0, -1};
+    vector<int> arr = {2,-5,-2,-4,3};
     cout << maxProduct(arr);
 }
