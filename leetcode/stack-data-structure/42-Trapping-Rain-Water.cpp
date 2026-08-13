@@ -3,38 +3,22 @@
 using namespace std;
 
 int trap(vector<int>& height) {
-    stack<int> st;
-    vector<int> nge(height.size(), -1);
-    for (int i = height.size()-1; i >= 0; i--) {
-        while (!st.empty() && st.top() <= height[i]) {
-            st.pop();
-        }
-        while (st.size() > 1) st.pop();
-        if (!st.empty()) {
-            nge[i] = st.top();
-        }
-        st.push(height[i]);
+    vector<int> ans(height.size(), -1);
+    int prefixMax = height[0];
+    for (int i = 1; i < height.size(); i++) {
+        prefixMax = max(prefixMax, height[i]);
+        ans[i] = prefixMax;
     }
 
-    while (!st.empty()) st.pop();
-
-    nge[0] = -1;
-
-    for (int i = 0; i < height.size(); i++) {
-        while (!st.empty() && st.top() <= height[i]) {
-            st.pop();
-        }
-        while (st.size() > 1) st.pop();
-        nge[i] = min((st.empty() ? -1 : st.top()), nge[i]);
-        st.push(height[i]);
+    int n = height.size();
+    int suffixMax = height[n-1];
+    int total = 0;
+    for (int i = n-2; i >= 0; i--) {
+        suffixMax = max(suffixMax, height[i]);
+        ans[i] = min(suffixMax, ans[i]);
+        if (ans[i] > 0) total += ans[i] - height[i];
     }
-
-    int ans = 0;
-    for (int i = 0; i < height.size(); i++) {
-        if (nge[i] == -1 || nge[i] == -1) continue;
-        ans += nge[i] - height[i];
-    }
-    return ans;
+    return total;
 }
 
 int main () {
