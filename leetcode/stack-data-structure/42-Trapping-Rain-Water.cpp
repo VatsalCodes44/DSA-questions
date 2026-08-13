@@ -4,48 +4,40 @@ using namespace std;
 
 int trap(vector<int>& height) {
     stack<int> st;
-    vector<int> arr(height.size(), -1);
+    vector<int> nge(height.size(), -1);
     for (int i = height.size()-1; i >= 0; i--) {
-        while (!st.empty() && st.top() < height[i]) {
+        while (!st.empty() && st.top() <= height[i]) {
             st.pop();
         }
+        while (st.size() > 1) st.pop();
         if (!st.empty()) {
-            arr[i] = st.top();
+            nge[i] = st.top();
         }
         st.push(height[i]);
     }
 
-    int x = 0;
-    while (x < height.size() && height[x] <= 0) x++; 
-    if (x == height.size()) return 0;
-    int curr = height[x];
-    int sum = 0;
-    int nge = arr[x];
-    x++;
-    while (x < height.size()) {
-        int depth = 0;
-        if (nge == -1) {
-            int i = x;
-            int maxx = height[i];
-            for (i; i < height.size(); i++) {
-                maxx = max(maxx, height[i]);
-            }
-            nge = maxx;
-        }
+    while (!st.empty()) st.pop();
 
-        while (height[x] != nge) {
-            depth += min(curr, nge)-height[x];
-            x++;
+    nge[0] = -1;
+
+    for (int i = 0; i < height.size(); i++) {
+        while (!st.empty() && st.top() <= height[i]) {
+            st.pop();
         }
-        sum += depth;
-        nge = arr[x];
-        curr = height[x];
-        x++;
+        while (st.size() > 1) st.pop();
+        nge[i] = min((st.empty() ? -1 : st.top()), nge[i]);
+        st.push(height[i]);
     }
-    return sum;
+
+    int ans = 0;
+    for (int i = 0; i < height.size(); i++) {
+        if (nge[i] == -1 || nge[i] == -1) continue;
+        ans += nge[i] - height[i];
+    }
+    return ans;
 }
 
 int main () {
-    vector<int> arr = {4,2,3};
+    vector<int> arr = {0,1,0,2,1,0,1,3,2,1,2,1};
     cout << trap(arr) << endl;
 }
