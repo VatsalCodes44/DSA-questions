@@ -23,11 +23,11 @@ int sumSubarrayMins(vector<int>& arr) {
     long long sum = 0;
     long long mod = 1000000007;
     for (int i = 0; i < arr.size(); i++) {
-        int l = nseLeft[i] == -1 ? 0 : nseLeft[i]+1;
-        int r = nseRight[i] == -1 ? arr.size()-1 : nseRight[i]-1;
+        long long l = nseLeft[i] == -1 ? 0 : nseLeft[i]+1;
+        long long r = nseRight[i] == -1 ? arr.size()-1 : nseRight[i]-1;
 
-        int n = (r-l+1) % mod;
-        int modifiedI = i-l+1;
+        long long n = (r-l+1) % mod;
+        long long modifiedI = i-l+1;
 
         sum = ((sum % mod) + ((((modifiedI)*(n-modifiedI+1)) % mod) * (arr[i] % mod) % mod)) % mod;
     }
