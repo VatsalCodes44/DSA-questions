@@ -2,21 +2,29 @@
 
 using namespace std;
 
-int trap(vector<int>& height) {
-    vector<int> ans(height.size(), -1);
-    int prefixMax = height[0];
-    for (int i = 1; i < height.size(); i++) {
-        prefixMax = max(prefixMax, height[i]);
-        ans[i] = prefixMax;
-    }
-
-    int n = height.size();
-    int suffixMax = height[n-1];
-    int total = 0;
-    for (int i = n-2; i >= 0; i--) {
-        suffixMax = max(suffixMax, height[i]);
-        ans[i] = min(suffixMax, ans[i]);
-        if (ans[i] > 0) total += ans[i] - height[i];
+int trap(vector<int>& arr) {
+    int l = 0;
+    int r = arr.size()-1;
+    int total = 0, rMax = 0, lMax = 0;
+    while (l <= r) {
+        if (arr[l] <= arr[r]) {
+            if (lMax > arr[l]) {
+                total += (lMax-arr[l]);
+            }
+            else {
+                lMax = arr[l];
+            }
+            l++;
+        }
+        else {
+            if (rMax > arr[r]) {
+                total += (rMax-arr[r]);
+            }
+            else {
+                rMax = arr[r];
+            }
+            r--;
+        }
     }
     return total;
 }
