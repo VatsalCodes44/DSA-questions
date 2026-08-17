@@ -2,34 +2,38 @@
 
 using namespace std;
 
-int trap(vector<int>& arr) {
-    int l = 0;
-    int r = arr.size()-1;
-    int total = 0, rMax = 0, lMax = 0;
-    while (l <= r) {
-        if (arr[l] <= arr[r]) {
-            if (lMax > arr[l]) {
-                total += (lMax-arr[l]);
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int lmax = 0, rmax = 0, total = 0;
+        int l = 0;
+        int r = height.size()-1;
+        while (l <= r) {
+            if (height[l] <= height[r]) {
+                if (height[l] < lmax) {
+                    total += lmax-height[l];
+                }
+                else {
+                    lmax = height[l];
+                }
+                l++;
             }
             else {
-                lMax = arr[l];
+                if (height[r] < rmax) {
+                    total += rmax-height[r];
+                }
+                else {
+                    rmax = height[r];
+                }
+                r--;
             }
-            l++;
         }
-        else {
-            if (rMax > arr[r]) {
-                total += (rMax-arr[r]);
-            }
-            else {
-                rMax = arr[r];
-            }
-            r--;
-        }
+        return total;
     }
-    return total;
-}
+};
 
 int main () {
     vector<int> arr = {0,1,0,2,1,0,1,3,2,1,2,1};
-    cout << trap(arr) << endl;
+    Solution s;
+    cout << s.trap(arr) << endl;
 }
