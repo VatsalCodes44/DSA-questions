@@ -3,15 +3,15 @@
 using namespace std;
 
 int sumSubarrayMins(vector<int>& arr) {
-    stack<int> st;
-    vector<int> nseRight(arr.size(), -1);
-    vector<int> nseLeft (arr.size(), -1);
-
+    stack <int> st;
+    vector<int> nseRight(arr.size(), -1), nseLeft(arr.size(), -1);
+    
     for (int i = 0; i < arr.size(); i++) {
         while (!st.empty() && arr[st.top()] >= arr[i]) st.pop();
         if (!st.empty()) nseLeft[i] = st.top();
         st.push(i);
     }
+
     while (!st.empty()) st.pop();
 
     for (int i = arr.size()-1; i >= 0; i--) {
@@ -20,22 +20,23 @@ int sumSubarrayMins(vector<int>& arr) {
         st.push(i);
     }
 
-    long long sum = 0;
+    long long total = 0;
     long long mod = 1000000007;
+
     for (int i = 0; i < arr.size(); i++) {
-        long long l = nseLeft[i] == -1 ? 0 : nseLeft[i]+1;
+        long long l = nseLeft[i] == -1 ? 0 : nseLeft[i]-1;
         long long r = nseRight[i] == -1 ? arr.size()-1 : nseRight[i]-1;
 
-        long long n = (r-l+1) % mod;
-        long long modifiedI = i-l+1;
+        long long n = r - l + 1;
+        long long modifiedI = i - l + 1;
 
-        sum = ((sum % mod) + ((((modifiedI)*(n-modifiedI+1)) % mod) * (arr[i] % mod) % mod)) % mod;
+        total = ((total % mod) + ((arr[i] % mod) * ((modifiedI * (n - modifiedI + 1) % mod)) % mod) % mod);
     }
 
-    return (int) sum;
+    return total;
 }
 
 int main () {
-    vector<int> arr = {3,1,2,4};
+    vector<int> arr = {2, 2, 2};
     cout << sumSubarrayMins(arr);
 }
