@@ -4,27 +4,29 @@ using namespace std;
 
 class Solution {
 public:
-    int trap(vector<int>& height) {
-        vector<int> bothSides(height.size(), -1);
+    int trap(vector<int>& arr) {
+        int l = 0, r = arr.size()-1, lmax = 0, rmax = 0, total = 0;
 
-        int maxx = height[0];
-        for (int i = 1; i < height.size(); i++) {
-           maxx = max(maxx, height[i]);
-           if (maxx >= height[i]) bothSides[i] = maxx;
-        }
-
-        maxx = height[height.size()-1];
-        for (int i = height.size()-1; i >= 0; i--) {
-            maxx = max(maxx, height[i]);
-            if (maxx >= height[i] && bothSides[i] != -1) bothSides[i] = min(maxx, bothSides[i]);
-        }
-
-        int sum = 0;
-        for (int i = 1; i < height.size()-1; i++) {
-            if (bothSides[i] > height[i]) {
-                sum += bothSides[i] - height[i];
+        while (l <= r) {
+            if (arr[l] <= arr[r]) {
+                if (lmax > arr[l]) {
+                    total += lmax - arr[l];
+                }
+                else {
+                    lmax = arr[l];
+                }
+                l++;
+            }
+            else {
+                if (rmax > arr[r]) {
+                    total += rmax - arr[r];
+                }
+                else {
+                    rmax = arr[r];
+                }
+                r--;
             }
         }
-        return sum;
+        return total;
     }
 };
