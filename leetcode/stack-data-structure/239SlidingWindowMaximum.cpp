@@ -39,4 +39,35 @@ public:
         }
         return ans;
     }
+    vector<int> maxSlidingWindowDeque(vector<int>& arr, int k) {
+        deque<int> dq;
+        vector<int> ans;
+        for (int i = 0; i < arr.size(); i++) {
+            if (!dq.empty() && dq.front() == i-k) dq.pop_back();
+
+            if (dq.empty()) {
+                dq.push_back(i);
+            }
+            else if (arr[i] >= arr[dq.front()]) {
+                while (!dq.empty()) dq.pop_front();
+                dq.push_front(i);
+            }
+            else {
+                while (! dq.empty() && arr[dq.back()] <= arr[i]) dq.pop_back();
+                dq.push_back(i);
+            }
+            if (i >= k-1) {
+                ans.push_back(arr[dq.front()]);
+            }
+        }
+        return ans;
+    }
 };
+
+int main () {
+    Solution s;
+    vector<int> nums = {1,-1};
+    for (auto i: s.maxSlidingWindowDeque(nums, 1)) {
+        cout << i << " ";
+    }
+}
