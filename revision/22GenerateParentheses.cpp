@@ -30,8 +30,3 @@ public:
     }
 };
 
-int main () {
-    string s = "aaa";
-    s[1] = 'b';
-    cout << s;
-}
