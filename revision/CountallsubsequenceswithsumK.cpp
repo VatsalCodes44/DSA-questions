@@ -3,8 +3,11 @@
 using namespace std;
 
 int f(vector<int> & arr, int i, int k) {
-    if (k == 0) return 1; // this optimization anly works if the arr do noty have zeros
-    if (i == arr.size()) return 0;
+    if (k < 0) return 0; 
+    if (i == arr.size()) {
+        if (k == 0) return 1;
+        return 0;
+    }
 
     // pick
     k -= arr[i];
