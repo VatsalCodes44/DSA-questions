@@ -2,29 +2,19 @@
 
 using namespace std;
 
-void bs(int i, int n, string& ans) {
+vector<string> binaryStrings(string& ans, int i, int n, vector<string>& ansArr) {
     if (i == n) {
-        cout << ans << endl;
-        return;
-    }
-
-    if (ans.back() == '1') {
-        ans.push_back('0');
-        bs(i+1, n, ans);
-        ans.pop_back();
+        ansArr.push_back(ans);
         return;
     }
 
     ans.push_back('0');
-    bs(i+1, n, ans);
+    binaryStrings(ans, i+1, n, ansArr);
     ans.pop_back();
 
-    ans.push_back('1');
-    bs(i+1, n, ans);
-    ans.pop_back();
-}
-
-int main () {
-    string s = "";
-    bs(0, 3, s);
+    if (ans.size() == 0 || (ans.size() > 0 && ans.back() != '1')) {
+        ans.push_back('1');
+        binaryStrings(ans, i+1, n, ansArr);
+        ans.pop_back();
+    }
 }
