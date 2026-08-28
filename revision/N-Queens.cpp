@@ -5,48 +5,45 @@ using namespace std;
 class Solution {
 public:
 
-    bool isSafe(vector<string>& board, int row, int col) {
-        for (int i = col; i >= 0; i--) {
-            if (board[row][i] == 'Q') return false;
-        }
-
-        int r = row;
-        int c = col;
-        while (r >= 0 && c >= 0) {
-            if (board[r][c] == 'Q') return false;
-            r--;
-            c--;
-        }
-
-        r = row;
-        c = col;
-        while (c >= 0 && r < board.size()) {
-            if (board[r][c] == 'Q') return false;
-            r++;
-            c--;
-        }
+    bool isSafe(int row, int col, vector<int>& rowHash, vector<int>& upperD, vector<int>& lowerD) {
+        if (rowHash[row]) return false;
+        if (lowerD[row + col]) return false;
+        if (upperD[rowHash.size() - 1 + col - row]) return false;
         return true;
     }
-    void f(vector<string>& board, int col, vector<vector<string>>& ans) {
+
+    void f(vector<string>& board, int col, vector<vector<string>>& ans, vector<int>& rowHash, vector<int>& upperD, vector<int>& lowerD) {
         if (col == board.size()) {
             ans.push_back(board);
             return;
         }
 
         for (int i = 0; i < board.size(); i++) {
-            if (isSafe(board, i, col)) {
+            if (isSafe(i, col, rowHash, upperD, lowerD)) {
                 board[i][col] = 'Q';
-                f(board, col+1, ans);
+                rowHash[i] = 1;
+                upperD[rowHash.size() - 1 + col - i] = 1;
+                lowerD[i + col] = 1;
+                f(board, col+1, ans, rowHash, upperD, lowerD);
+                rowHash[i] = 0;
+                upperD[rowHash.size() - 1 + col - i] = 0;
+                lowerD[i + col] = 0;
                 board[i][col] = '.';
             }
         }
     }
+
     vector<vector<string>> solveNQueens(int n) {
         string row = "";
         for (int i = 0; i < n; i++) row += '.';
         vector<string> board(n, row);
         vector<vector<string>> ans;
-        f(board, 0, ans);
+
+        vector<int> rowHash(n, 0);
+        vector<int> upperD((2*n-1)*2, 0);
+        vector<int> lowerD((2*n-1)*2, 0);
+        
+        f(board, 0, ans, rowHash, upperD, lowerD);
         return ans;
     }
 };
