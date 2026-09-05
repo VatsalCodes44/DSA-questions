@@ -9,12 +9,10 @@ public:
         int l = 0, r = 0, count = 0, numOfOdd = 0;
 
         while (r < nums.size()) {
-            if (nums[r] % 2 == 1) {
-                numOfOdd++;
-            }
+            numOfOdd += nums[r]%2;
 
             while (numOfOdd > k) {
-                if (nums[l] % 2 == 1) numOfOdd--;
+                numOfOdd -= nums[l] % 2 == 1;
                 l++;
             }
 
