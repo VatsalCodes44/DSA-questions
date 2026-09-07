@@ -5,31 +5,28 @@ using namespace std;
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int nextGreatestElement = -1;
-        vector<int> nge(height.size(), -1);
+        int ngeR = 0, ngeL = 0, sum = 0, l = 0, r = height.size()-1;
 
-        // nge left
-        for (int i = 0; i < height.size(); i++) {
-            if (nextGreatestElement > height[i]) nge[i] = nextGreatestElement;
-            nextGreatestElement = max(nextGreatestElement, height[i]);
+        while (l <= r) {
+            if (height[l] <= height[r]) {
+                if (ngeL >= height[l]) {
+                    sum += ngeL - height[l];
+                }
+                else {
+                    ngeL = height[l];
+                }
+                l++;
+            }
+            else {
+                if (ngeR >= height[r]) {
+                    sum += ngeR - height[r];
+                }
+                else {
+                    ngeR = height[r];
+                }
+                r--;
+            }
         }
-
-        nextGreatestElement = -1;
-
-        // nge right
-        for (int i = height.size()-1; i >= 0; i--) {
-            if (nextGreatestElement > height[i]) nge[i] = min(nge[i], nextGreatestElement);
-            else nge[i] = -1;
-            nextGreatestElement = max(nextGreatestElement, height[i]);
-        }
-        nge[nge.size()-1] = -1;
-        nge[0] = -1;
-
-        int sum = 0;
-        for (int i = 0; i < nge.size(); i++) {
-            if (nge[i] != -1) sum += nge[i] - height[i];
-        }
-
         return sum;
     }
 };
