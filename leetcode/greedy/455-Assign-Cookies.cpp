@@ -10,17 +10,16 @@ public:
 
         int count = 0;
         int j = 0;
-        for (int i = 0; i < g.size(); i++) {
-            if (j >= s.size()) break;
-            while (j < s.size()) {
-                if (s[j] >= g[i]) {
-                    count++;
-                    j++;
-                    break;
-                }
+        int i = 0;
+        while (i < s.size()) {
+            if (count == g.size()) break;
+            if (s[i] >= g[j]) {
                 j++;
+                count++;
             }
+            i++;
         }
+
         return count;
     }
 };
