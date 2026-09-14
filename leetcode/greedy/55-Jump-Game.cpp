@@ -8,12 +8,11 @@ public:
         int maxIdx = 0;
         int i = 0;
 
-        do {
-            if (maxIdx < i+nums[i]) maxIdx = i+nums[i];
-            if (maxIdx >= nums.size()-1) return true;
+        while (i <= maxIdx) {
+            maxIdx = max(maxIdx, i+nums[i]);
             i++;
-        } while (i <= maxIdx);
-        
+            if (maxIdx >= nums.size()-1) return true;
+        }
         return false;
     }
 };
