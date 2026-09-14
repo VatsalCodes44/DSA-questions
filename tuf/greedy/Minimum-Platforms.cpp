@@ -12,33 +12,26 @@ class Solution {
     
     int minPlatform(vector<int>& arr, vector<int>& dep) {
         // code here
-        vector<pair<int,int>> trains;
-        trains.reserve(arr.size());
+        sort(arr.begin(), arr.end());
+        sort(dep.begin(), dep.end());
         
-        for (int i = 0; i < arr.size(); i++) {
-            trains.push_back({arr[i], dep[i]});
+        int count = 0;
+        int maxCount = 0;
+        
+        int i = 0, j = 0;
+        
+        while (i < arr.size() && j < arr.size()) {
+            if (arr[i] <= dep[j]) {
+                count++;
+                maxCount = max(maxCount, count);
+                i++;
+            }
+            else {
+                count--;
+                j++;
+            }
         }
         
-        sort(trains.begin(), trains.end(), comparator);
-        
-        vector<pair<int, int>> platforms;
-        platforms.reserve(arr.size());
-        
-        for (int i = 0; i < trains.size(); i++) {
-            bool placed = false;
-            for (int j = 0; j < platforms.size(); j++) {
-                if (platforms[j].second < trains[i].first) {
-                    placed = true;
-                    platforms[j] = trains[i];
-                    break;
-                }
-            }
-            if (!placed) {
-                platforms.push_back(trains[i]);
-            }
-        } 
-        
-        return platforms.size();
-        
+        return maxCount;
     }
 };
