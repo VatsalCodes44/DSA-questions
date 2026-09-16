@@ -5,35 +5,25 @@ using namespace std;
 class Solution {
 public:
     bool checkValidString(string s) {
-        stack<int> st;
-        stack<int> open;
+        int min = 0;
+        int max = 0;
 
-        int i = 0; 
-        while (i < s.size()) {
+        for (int i= 0; i < s.size(); i++) {
             if (s[i] == '(') {
-                open.push(i);
+                min++;
+                max++;
             }
-            else if (s[i] == '*') {
-                st.push(i);
-            }
-            else {
-                if (!open.empty()) {
-                    open.pop();
-                }
-                else if (!st.empty()) st.pop();
+            else if (s[i] == ')') {
+                if (min >= 1) min--;
+                if (max >= 1) max--;
                 else return false;
             }
-            i++;
-        }
-        while (!open.empty() && !st.empty()) {
-            if (st.top() > open.top()) {
-                st.pop();
-                open.pop();
+            else {
+                if (min >= 1) min--;
+                max++;
             }
-            else return false;
         }
-        if (!open.empty()) return false;
-        
-        return true;
+        if (min == 0) return true;
+        return false;
     }
 };
