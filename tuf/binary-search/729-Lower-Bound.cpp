@@ -9,10 +9,10 @@ public:
         int mid = -1;
         while (l < h) {
             mid = (l+h)/2;
-            if (nums[mid] >= x) {
-                h = mid;
-            } else {
+            if (nums[mid] < x) {
                 l = mid+1;
+            } else {
+                h = mid;
             }
         }
         return nums[l] >= x ? l : nums.size();
