@@ -24,10 +24,11 @@ public:
                 ans.pop_back();
                 ans.push_back(arr);
             }
-            else ans.push_back(intervals[i]);
+            else {
+                ans.push_back(intervals[i]);
+            }
         }
         return ans;
         
     }
-}
-// 
+};
