@@ -5,43 +5,34 @@ using namespace std;
 class Solution {
 public:
     int candy(vector<int>& ratings) {
-        int candy = 1;
-        int lastPeakValue = 1;
-        int lastPeak = 0;
-        int count = 1;
+        int sum = 1;
         int i = 1;
-
         while (i < ratings.size()) {
-            while (i < ratings.size() && ratings[i - 1] < ratings[i]) {
-                candy++;
-                count += candy;
-                lastPeak = i;
-                lastPeakValue = candy;
+            if (ratings[i] == ratings[i-1]) {
+                sum++;
+                i++;
+                continue;
+            }
+
+            // peak starts, may be its an increasing slope
+            int peak = 1;
+            while (i < ratings.size() && ratings[i] > ratings[i-1]) {
+                peak++;
+                sum += peak;
                 i++;
             }
 
-            candy = 0;
-            while (i < ratings.size() && ratings[i - 1] > ratings[i]) {
-                candy++;
-                count += candy;
+            int down = 0;
+            while (i < ratings.size() && ratings[i] < ratings[i-1]) {
+                down++;
+                sum += down; 
                 i++;
             }
 
-            if (lastPeak != -1) {
-                count -= lastPeakValue;
-                count += max(lastPeakValue, candy + 1);
-                lastPeak = -1;
-            }
-
-            candy = 1;
-            while (i < ratings.size() && ratings[i - 1] == ratings[i]) {
-                count++;
-                lastPeak = i;
-                lastPeakValue = candy;
-                i++;
-            }
+            if (down >= peak) sum += abs(down-peak+1);
         }
-        return count;
+
+        return sum;
     }
 };
 
