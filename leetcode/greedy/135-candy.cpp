@@ -5,32 +5,45 @@ using namespace std;
 class Solution {
 public:
     int candy(vector<int>& ratings) {
-        vector<int> arr(1, ratings.size());
+        int candy = 1;
+        int lastPeakValue = 1;
+        int lastPeak = 0;
+        int count = 1;
+        int i = 1;
 
-        for (int i = 1; i < arr.size(); i++) {
-            if (ratings[i-1] < ratings[i]) {
-                arr[i] = arr[i-1]+1;
+        while (i < ratings.size()) {
+            while (i < ratings.size() && ratings[i - 1] < ratings[i]) {
+                candy++;
+                count += candy;
+                lastPeak = i;
+                lastPeakValue = candy;
+                i++;
+            }
+
+            candy = 0;
+            while (i < ratings.size() && ratings[i - 1] > ratings[i]) {
+                candy++;
+                count += candy;
+                i++;
+            }
+
+            if (lastPeak != -1) {
+                count -= lastPeakValue;
+                count += max(lastPeakValue, candy + 1);
+                lastPeak = -1;
+            }
+
+            candy = 1;
+            while (i < ratings.size() && ratings[i - 1] == ratings[i]) {
+                count++;
+                lastPeak = i;
+                lastPeakValue = candy;
+                i++;
             }
         }
-
-        int curr = 1;
-        for (int i = arr.size()-2; i >= 0; i--) {
-            if (ratings[i] > ratings[i+1]) {
-                curr++;
-                arr[i] = max(curr, arr[i]);
-            }
-            else curr = 1;
-        }
-
-        int count = 0;
-        for (int i = 0; i < arr.size(); i++) {
-            count += arr[i];
-        }
-
         return count;
     }
 };
-
 
 int main () {
     vector<int> arr = {1,0,2};
