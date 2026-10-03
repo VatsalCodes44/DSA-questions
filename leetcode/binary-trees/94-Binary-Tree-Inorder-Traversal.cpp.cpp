@@ -11,7 +11,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class Solution {
+class Recursive {
 private:
     void dfsInorder(TreeNode* root, vector<int>& ans) {
         if (!root) return;
@@ -23,6 +23,32 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;
         dfsInorder(root, ans);
+        return ans;
+    }
+};
+
+class Iterative {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        if (!root) return ans;
+        stack<TreeNode*> st;
+        st.push(root);
+        TreeNode* mover = root;
+
+        while (!st.empty()) {
+            if (mover) {
+                if (mover->left) st.push(mover->left);
+                mover = mover->left;
+            }
+            else {
+                TreeNode* top = st.top();
+                st.pop();
+                mover = top->right;
+                ans.push_back(top->val);
+                if (top->right) st.push(top->right);
+            }
+        }
         return ans;
     }
 };
