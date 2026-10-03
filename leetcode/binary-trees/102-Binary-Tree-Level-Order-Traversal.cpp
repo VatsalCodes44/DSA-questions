@@ -22,6 +22,7 @@ struct TreeNode {
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
 class Recursive {
 public:
     void bfs(queue<TreeNode*>& q, vector<vector<int>>& ansArr) {
