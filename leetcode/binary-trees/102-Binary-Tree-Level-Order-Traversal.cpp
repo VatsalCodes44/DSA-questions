@@ -22,7 +22,7 @@ struct TreeNode {
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Recursive {
 public:
     void bfs(queue<TreeNode*>& q, vector<vector<int>>& ansArr) {
         if (q.empty()) return;
@@ -45,6 +45,30 @@ public:
         vector<vector<int>> ansArr;
         if (!root) return ansArr;
         bfs(q, ansArr);
+        return ansArr;
+    }
+};
+
+class Iterative {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ansArr;
+        if (!root) return ansArr;
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int n = q.size();
+            vector<int> ans;
+            for (int i = 0; i < n; i++) {
+                TreeNode* curr = q.front();
+                q.pop();
+                ans.push_back(curr->val);
+                if (curr->left) q.push(curr->left);
+                if (curr->right) q.push(curr->right);
+            }
+            ansArr.push_back(ans);
+        }
         return ansArr;
     }
 };
