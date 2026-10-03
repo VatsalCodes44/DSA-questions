@@ -23,28 +23,28 @@ struct TreeNode {
  * };
  */
 class Solution {
-private: 
-    void bfsLevelorder(vector<TreeNode*>& currLevel, vector<vector<int>>& ansArr) {
-        if (currLevel.size() == 0) return;
-
-        vector<int> ans;
-        vector<TreeNode*> nextLevel;
-        for (int i = 0; i < currLevel.size(); i++) {
-            if (currLevel[i]) {
-                ans.push_back(currLevel[i]->val);
-                nextLevel.push_back(currLevel[i]->left);
-                nextLevel.push_back(currLevel[i]->right);
-            }
-        }
-        if (ans.size() > 0) ansArr.push_back(ans);
-        bfsLevelorder(nextLevel, ansArr);
-    }
 public:
+    void bfs(queue<TreeNode*>& q, vector<vector<int>>& ansArr) {
+        if (q.empty()) return;
+        int n = q.size();
+        vector<int> ans;
+        ans.reserve(q.size());
+        for (int i = 0; i < n; i++) {
+            TreeNode* curr = q.front();
+            q.pop();
+            ans.push_back(curr->val);
+            if (curr->left) q.push(curr->left);
+            if (curr->right) q.push(curr->right);
+        }
+        ansArr.push_back(ans);
+        bfs(q, ansArr);
+    }
     vector<vector<int>> levelOrder(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
         vector<vector<int>> ansArr;
-        vector<TreeNode*> arr;
-        arr.push_back(root);
-        bfsLevelorder(arr, ansArr);
+        if (!root) return ansArr;
+        bfs(q, ansArr);
         return ansArr;
     }
 };
