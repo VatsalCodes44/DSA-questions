@@ -38,3 +38,37 @@ public:
         return ans;
     }
 };
+
+class BFS {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ansArr;
+        if (!root)
+            return ansArr;
+        queue<tuple<TreeNode*, int, int>> level;
+        level.push(make_tuple(root, 0, 0));
+
+        map<int, map<int, multiset<int>>> verticle;
+
+        while (!level.empty()) {
+            int n = level.size();
+            for (int i = 0; i < n; i++) {
+                auto [curr, row, hd] = level.front();
+                level.pop();
+                verticle[hd][row].insert(curr->val);
+                if (curr->left) level.push(make_tuple(curr->left, row + 1, hd - 1));
+                if (curr->right) level.push(make_tuple(curr->right, row + 1, hd + 1));
+            }
+        }
+
+        for (auto &[key, rows]: verticle) {
+            vector<int> ans;
+            for (auto &[row, vals]: rows) {
+                for (auto &x: vals) ans.push_back(x);
+            }
+            ansArr.push_back(ans);
+        }
+
+        return ansArr;
+    }
+};
