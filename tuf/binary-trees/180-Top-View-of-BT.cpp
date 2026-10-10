@@ -38,3 +38,31 @@ class BFS{
         return ans;
     }
 };
+
+class DFS{
+    public:
+    void f (TreeNode* root, int verticle, int level, map<int, pair<int, int>>& mpp) {
+        if (!root) return;
+        if (mpp.find(verticle) == mpp.end()) mpp[verticle] = {level, root->data};
+        else {
+            auto [lvl, _] = mpp[verticle];
+            if (lvl > level) mpp[verticle] = {level, root->data};
+        }
+        f(root->left, verticle-1, level+1, mpp);
+        f(root->right, verticle+1, level+1, mpp);
+    }
+    vector<int> topView(TreeNode *root){
+        // your code goes here
+        vector<int> ans;
+        map<int, pair<int, int>> mpp;
+
+        f(root, 0, 0, mpp);
+
+        for (auto &[_, value]: mpp) {
+            auto [__, val] = value;
+            ans.push_back(val);
+        }
+
+        return ans;
+    }
+};
