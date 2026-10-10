@@ -12,29 +12,30 @@ struct TreeNode {
 };
 
 
-class Solution {
+class BFS {
   public:
-    void f (TreeNode* root, int row, int col, map<int, pair<int, int>>& mpp) {
-        if (!root) return;
-        if (mpp.find(col) == mpp.end()) mpp[col] = {row, root->data};
-        else {
-            auto [r, v] = mpp[col];
-            if (row >= r) mpp[col] = {row, root->data};
-        }
-        f(root->left, row+1, col-1, mpp);
-        f(root->right, row+1, col+1, mpp);
-    }
     vector <int> bottomView(TreeNode *root){
     	//your code goes here
-        map<int, pair<int, int>> mpp;
-
-        f(root, 0, 0, mpp);
-
         vector<int> ans;
-        ans.reserve(mpp.size());
+        if (!root) return ans;
+        map<int, int> mpp;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, 0});
 
-        for (auto &[key, value]: mpp) ans.push_back(value.second);
+        while (!q.empty()) {
+            int n = q.size();
 
+            for (int i = 0; i < n; i++) {
+                auto [curr, verticle] = q.front();
+                q.pop();
+                mpp[verticle] = curr->data;
+                if (curr->left) q.push({curr->left, verticle-1});
+                if (curr->right) q.push({curr->right, verticle+1});
+            }
+        }
+
+        for (auto &[_, val]: mpp) ans.push_back(val);
         return ans;
+
     }
 };
