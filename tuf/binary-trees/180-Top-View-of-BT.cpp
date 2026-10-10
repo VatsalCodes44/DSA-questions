@@ -11,32 +11,30 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : data(x), left(left), right(right) {}
 };
 
-class Solution{
+class BFS{
     public:
-    //                                            col,      row, val
-    void f (TreeNode* root, int col, int row, map<int, pair<int, int>>& mpp) {
-        if (!root) return;
-        if (mpp.find(col) == mpp.end()) mpp[col] = {row, root->data};
-        else {
-            auto [r, v] = mpp[col];
-            if (row < r) mpp[col] = {row, root->data};
-        }
-        f(root->left, col-1, row+1, mpp);
-        f(root->right, col+1, row+1, mpp);
-    }
     vector<int> topView(TreeNode *root){
         //your code goes here
-        //  col, val
-        map<int, pair<int, int>> mpp;
-
-        f(root, 0, 0, mpp);
-
         vector<int> ans;
+        if(!root) return ans;
+        map<int, int> mpp;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, 0});
 
-        for (auto i: mpp){
-            ans.push_back(i.second.second);
+        while (!q.empty()) {
+            int n = q.size();
+            for (int i = 0; i < n; i++) {
+                auto [curr, verticle] = q.front();
+                if (mpp.find(verticle) == mpp.end()) mpp[verticle] = curr->data;
+                q.pop();
+                if (curr->left) q.push({curr->left, verticle-1});
+                if (curr->right) q.push({curr->right, verticle+1});
+            }
         }
 
+        for (auto &[_, val]: mpp){
+            ans.push_back(val);
+        }
         return ans;
     }
 };
