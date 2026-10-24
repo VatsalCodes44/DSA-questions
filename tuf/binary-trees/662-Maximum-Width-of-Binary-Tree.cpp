@@ -15,43 +15,38 @@ class Solution {
 public:
     int widthOfBinaryTree(TreeNode* root) {
         if (!root) return 0;
-        int maxW = 0;
-        queue<TreeNode*> q;
-        q.push(root);
-        while (!q.empty()) {
-            int n = q.size();
-            int start = -1;
-            int currMax = 0;
+        queue<pair<long long, TreeNode*>> q;
+        q.push({0, root});
+        long long maxWidth = 1;
+
+        while (!q.empty()){
+            long long n = q.size();
+            long long first = q.front().first;
+            long long last = first;
             for (int i = 0; i < n; i++) {
-                if (start == -1) {
-                    if (!q.front()) {
-                        q.pop();
-                        continue;
-                    }
-                    else {
-                        start = i;
-                    }
-                }
-                
-                if (q.front()) {
-                    currMax = max(i-start+1, currMax);
-                }
-
-                TreeNode* curr = q.front();
+                auto [idx, curr] = q.front();
                 q.pop();
-                if (!curr) {
-                    q.push(nullptr);
-                    q.push(nullptr);
-                    continue;
-                }
-                if (curr->left) q.push(curr->left);
-                else q.push(nullptr);
-                if (curr->right) q.push(curr->right);
-                else q.push(nullptr);
+                last = idx;
+                idx -= first;
+                if (curr->left) q.push({2*idx+1, curr->left});
+                if (curr->right) q.push({2*idx+2, curr->right});
             }
-
-            maxW = max(maxW, currMax);
+            maxWidth = max(maxWidth, last - first + 1);
         }
-        return maxW;
+
+        return maxWidth;
     }
 };
+
+int main () {
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(3);
+    root->right = new TreeNode(2);
+    root->left->left = new TreeNode(5);
+    root->left->right = new TreeNode(3);
+    root->right->left = new TreeNode(3);
+    root->right->right = new TreeNode(2);
+
+    Solution s;
+    cout << s.widthOfBinaryTree(root);
+}
