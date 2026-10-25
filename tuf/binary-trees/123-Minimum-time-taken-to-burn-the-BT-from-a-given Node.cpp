@@ -11,6 +11,8 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : data(x), left(left), right(right) {}
 };
 
+
+// expand in 3 directions
 class Solution {
    public:
     int timeToBurnTree(TreeNode* root, int start) {
@@ -77,3 +79,5 @@ class Solution {
         return maxTime - 1;
     }
 };
+
+
