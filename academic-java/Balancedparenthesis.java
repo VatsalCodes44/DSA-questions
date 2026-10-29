@@ -5,12 +5,10 @@ class Solution {
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(' || s.charAt(i) == '{' || s.charAt(i) == '[') dq.addLast(s.charAt(i));
             else {
-                if (s.charAt(i) == ')' && dq.getLast() == '(') dq.removeLast();
-                else if (s.charAt(i) == '}' && dq.getLast() == '{') dq.removeLast();
-                else if (s.charAt(i) == ']' && dq.getLast() == '[') dq.removeLast();
+                if (dq.size() > 0 && ((s.charAt(i) == ')' && dq.getLast() == '(') || (s.charAt(i) == '}' && dq.getLast() == '{') || (s.charAt(i) == ']' && dq.getLast() == '['))) dq.removeLast();
                 else return false;
             }
         }
-        return true;
+        return dq.size() == 0 ;
     }
 }
