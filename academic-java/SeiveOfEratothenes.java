@@ -1,3 +1,4 @@
+import java.util.*;
 class Solution {
   public ArrayList<Integer> primeTillN(int n) {
     // your code goes here
