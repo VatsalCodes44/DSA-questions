@@ -126,3 +126,34 @@ public:
         return ans;
     }
 };
+
+class morrisInorder {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        if (!root) return ans;
+
+        TreeNode* curr = root;
+        while (curr) {
+            if (!curr->left) {
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+            else {
+                TreeNode* temp = curr->left;
+                while (temp->right && temp->right != curr) temp = temp->right;
+                
+                if (temp->right == curr) {
+                    temp->right = nullptr;
+                    ans.push_back(curr->val);
+                    curr = curr->right;
+                }
+                else {
+                    temp->right = curr;
+                    curr = curr->left;
+                }
+            }
+        }
+        return ans;
+    }
+};
