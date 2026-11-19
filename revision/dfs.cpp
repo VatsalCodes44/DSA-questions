@@ -157,3 +157,34 @@ public:
         return ans;
     }
 };
+
+class morrisPreorder {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        if (!root)
+            return ans;
+
+        TreeNode* curr = root;
+        while (curr) {
+            if (!curr->left) {
+                ans.push_back(curr->val);
+                curr = curr->right;
+            } else {
+                TreeNode* temp = curr->left;
+                while (temp->right && temp->right != curr)
+                    temp = temp->right;
+
+                if (temp->right == curr) {
+                    temp->right = nullptr;
+                    curr = curr->right;
+                } else {
+                    temp->right = curr;
+                    ans.push_back(curr->val);
+                    curr = curr->left;
+                }
+            }
+        }
+        return ans;
+    }
+};
