@@ -24,7 +24,7 @@ public:
 
         maxPath = max(maxPath, max(root->val, root->val + max(lPath + rPath, max(lPath, rPath))));
 
-        return max(root->val, max(lPath, rPath) + root->val;
+        return max(root->val, max(lPath, rPath) + root->val);
     }
     int maxPathSum(TreeNode* root) {
         f(root);
