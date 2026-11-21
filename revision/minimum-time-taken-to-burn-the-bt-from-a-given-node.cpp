@@ -16,11 +16,11 @@ class Solution {
    public:
     TreeNode* f(TreeNode* root, int start) {
         if (!root) return nullptr;
-        if (root->data == start) return root;
+        if (root->val == start) return root;
         TreeNode* left = f(root->left, start);
-        if (left && left->data == start) return left;
+        if (left && left->val == start) return left;
         TreeNode* right = f(root->right, start);
-        if (right && right->data == start) return right;
+        if (right && right->val == start) return right;
         return nullptr;
     }
     int timeToBurnTree(TreeNode* root, int start) {
